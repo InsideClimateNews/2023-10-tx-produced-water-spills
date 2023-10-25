@@ -1,8 +1,8 @@
 # Spills of produced water by the Texas oil and gas industry from 2013 to 2022
 
-Data and [R](https://www.r-project.org/) code for the analysis underlying [this]() Inside Climate News article, analyzing a decade of spills in Texas of produced water -- which emerges from wells along with crude oil and gas during fossil fuel extraction.
+Data and [R](https://www.r-project.org/) code for the analysis underlying [this]() Inside Climate News article, analyzing a decade of spills in Texas of produced water — which emerges from wells along with crude oil and gas during fossil fuel extraction.
 
-### Notes on data cleaning/processing
+### Data cleaning/processing
 
 Records of these spills are maintained by the Texas Railroad Commission, which regulates the state's oil and gas industry, in spreadsheets it calls “spill logs.” Through public records requests, we obtained logs held centrally by the Railroad Commission, and those held by the commission's individual district offices throughout the state.
 
@@ -16,9 +16,10 @@ The cleaned and filtered data is in the two data input files described below.
 
 ### Analysis
 
-Our analysis of the number and volume of releases of produced water based on the spill logs held centrally by the Railroad Commission is given [here](tx-spills-central.html) and in the file `tx-spills-central.Rmd`. A corresponding analysis for the logs held by commission's district offices is [here](htx-spills-district.html) and in the file `tx-spills-district.Rmd`.
+Our analysis of the number and volume of releases of produced water based on the spill logs held centrally by the Railroad Commission is given [here](https://insideclimatenews.github.io/2023-10-tx-produced-water-spills/tx-spills-central.html) and in the file `tx-spills-central.Rmd`. A corresponding analysis for the logs held by commission's district offices is [here](https://insideclimatenews.github.io/2023-10-tx-produced-water-spills/tx-spills-district.html) and in the file `tx-spills-district.Rmd`.
 
 ### Other files/folders
+
 * `data` Input data files:
 
     -  `central_cleaned.csv` Cleaned and filtered data on releases of produced water processed from the spill logs held centrally by the Texas Railroad Commission.
