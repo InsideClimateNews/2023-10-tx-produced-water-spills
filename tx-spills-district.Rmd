@@ -1,0 +1,169 @@
+---
+title: "Texas produced water spills, analysis of spill logs from Railroad Commission district offices"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+## Setting up
+
+```{r}
+# load required packages
+library(tidyverse)
+library(scales)
+library(DT)
+
+# load data on produced water spills, 2013-2022 from district office spill logs
+tx_spills_district_prod_water <- read_csv("data/district_cleaned.csv")
+```
+
+### Total produced water spilled
+
+```{r}
+tx_spills_district_prod_water %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)), 
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE))) %>%
+  mutate_all(., prettyNum, big.mark = ",") %>%
+  datatable(colnames = c("Spills", "Gallons released", "Gallons recovered"))
+```
+
+### Spills by year
+
+```{r}
+spills_year = tx_spills_district_prod_water %>%
+  group_by(year = year(date_of_spill_edit)) %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)),
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE)))
+
+spills_year %>%
+  mutate_at(c(2:4), prettyNum, big.mark = ",") %>%
+  datatable(colnames = c("Year", "Spills", "Gallons released", "Gallons recovered"))
+```
+
+```{r}
+ggplot(spills_year, aes(x=year, y=released)) + 
+  geom_col(fill = "red") +
+  geom_hline(yintercept = 0, linewidth = 0.3) +
+  scale_x_continuous(breaks = c(2014,2016,2018,2020,2022)) +
+  scale_y_continuous(labels = comma) +
+  xlab("") +
+  ylab("") +
+  theme_minimal() +
+  ggtitle("Gallons of produced water spilled, statewide by year") +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        plot.title.position = "plot")
+```
+
+### Spills by Railroad Commission district
+
+```{r}
+spills_district <- tx_spills_district_prod_water %>%
+  group_by(district_edit) %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)),
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE))) %>%
+  arrange(-released)
+
+spills_district %>%
+  mutate_at(c(2:4), prettyNum, big.mark = ",") %>%
+  datatable(colnames = c("District", "Spills", "Gallons released", "Gallons recovered"))
+```
+
+```{r}
+ggplot(spills_district, aes(x=reorder(district_edit,released), y=released)) +
+  geom_col(fill = "red") +
+  geom_hline(yintercept = 0, linewidth = 0.3) +
+  scale_y_continuous(labels = comma) +
+  xlab("") +
+  ylab("") +
+  theme_minimal() +
+  ggtitle("Gallons of produced water spilled, by district") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.title.position = "plot") +
+  coord_flip()
+```
+
+### Spills by county
+
+```{r}
+spills_county <- tx_spills_district_prod_water %>%
+  group_by(county_edit) %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)),
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE))) %>%
+  arrange(-released)
+
+spills_county %>%
+  mutate_at(c(2:4), prettyNum, big.mark = ",") %>%
+  datatable(colnames = c("County", "Spills", "Gallons released", "Gallons recovered"))
+```
+```{r}
+spills_county_top10 <- spills_county %>%
+  slice_max(released, n = 10)
+
+ggplot(spills_county_top10, aes(x=reorder(county_edit,released), y=released)) +
+  geom_col(fill = "red") +
+  geom_hline(yintercept = 0, linewidth = 0.3) +
+  scale_y_continuous(labels = comma) +
+  xlab("") +
+  ylab("") +
+  theme_minimal() +
+  ggtitle("Gallons of produced water spilled, top 10 counties") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.title.position = "plot") +
+  coord_flip()
+```
+
+### Spills by operator
+
+```{r}
+spills_operator <- tx_spills_district_prod_water %>%
+  group_by(operator_edit) %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)),
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE))) %>%
+  arrange(-released) 
+
+spills_operator %>%
+  mutate_at(c(2:4), prettyNum, big.mark = ",") %>%
+  datatable(colnames = c("Operator", "Spills", "Gallons released", "Gallons recovered"))
+```
+
+```{r}
+spills_operator_top10 <- spills_operator %>%
+  slice_max(released, n = 10)
+
+ggplot(spills_operator_top10, aes(x=reorder(operator_edit,released), y=released)) +
+  geom_col(fill = "red") +
+  geom_hline(yintercept = 0, linewidth = 0.3) +
+  scale_y_continuous(labels = comma) +
+  xlab("") +
+  ylab("") +
+  theme_minimal() +
+  ggtitle("Gallons of produced water spilled, top 10 operators") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.title.position = "plot") +
+  coord_flip()
+```
+
+### Total spilled on water
+
+```{r}
+tx_spills_district_prod_water %>%
+  filter(spill_on_water_edit == "YES") %>%
+  summarize(spills = n(),
+            released = round(sum(release_prod_water_edit, na.rm = TRUE)),
+            recovered = round(sum(recovery_prod_water_edit, na.rm = TRUE))) %>%
+  mutate_all(., prettyNum, big.mark = ",") %>%
+  datatable()
+```
+
