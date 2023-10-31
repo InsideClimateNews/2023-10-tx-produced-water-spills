@@ -1,6 +1,6 @@
 # Spills of produced water by the Texas oil and gas industry from 2013 to 2022
 
-Data and [R](https://www.r-project.org/) code for the analysis underlying [this]() Inside Climate News article, analyzing a decade of spills in Texas of produced water — which emerges from wells along with crude oil and gas during fossil fuel extraction.
+Data and [R](https://www.r-project.org/) code for the analysis underlying [this](https://insideclimatenews.org/news/31102023/oil-gas-companies-spill-wastewater-in-texas/) Inside Climate News article, analyzing a decade of spills in Texas of produced water — which emerges from wells along with crude oil and gas during fossil fuel extraction.
 
 ### Data cleaning/processing
 
