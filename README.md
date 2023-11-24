@@ -10,7 +10,7 @@ The data required extensive cleaning in R, [OpenRefine](https://openrefine.org/)
 
 Where volumes of produced water were given as greater than or less than a particular value, we used that value. Where a range was given, we used the midpoint of that range. In a small number of cases in which the volume of water recovered was shown as greater than the volume released, we corrected the volume recovered to equal the volume released. We multiplied all volumes given in barrels by 42 to give volumes in U.S. gallons, used for our analysis.
 
-The spill logs documented releases of crude oil, condensates (hydrocarbons with a density less than that of crude oil), natural gas, and produced water, with some records involving spills of more than one substance simultaneously. For our analysis of spills of produced water, we filtered to remove records with no entry for the volume of produced water released, or with a value of zero, and to remove any spills that occured before or after the calendar years 2013 to 2022.
+The spill logs documented releases of crude oil, condensates (hydrocarbons with a density less than that of crude oil), natural gas, and produced water, with some records involving spills of more than one substance simultaneously. For our analysis of spills of produced water, we filtered to remove records with no entry for the volume of produced water released, or with a value of zero, and to remove any spills that occurred before or after the calendar years 2013 to 2022.
 
 The cleaned and filtered data is in the two data input files described below.
 
